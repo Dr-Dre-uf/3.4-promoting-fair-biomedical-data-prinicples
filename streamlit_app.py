@@ -1,27 +1,18 @@
 import streamlit as st
 import pandas as pd
 import random
-import subprocess
-import sys
+from faker import Faker
 from datetime import datetime
-
-# ------------------------------
-# Install Faker if missing
-# ------------------------------
-try:
-    from faker import Faker
-except ModuleNotFoundError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "faker"])
-    from faker import Faker
 
 # ------------------------------
 # App Title & Description
 # ------------------------------
-st.title("📊 Synthetic EHR Data Simulation: OMOP Person & Condition Tables")
+st.title("Clinical Data Simulation: OMOP Person & Condition Tables")
+
 st.write("""
-This interactive app simulates Electronic Health Record (EHR)-like data
-and transforms it to the OMOP Common Data Model (CDM) person and condition_occurrence tables.
-All data is **fake** and safe for educational purposes.
+This app generates a synthetic Electronic Health Record (EHR)-like dataset,
+maps it to the OMOP CDM person table, and simulates a condition_occurrence table.
+All data is fake and safe for educational purposes.
 """)
 
 # ------------------------------
@@ -32,7 +23,7 @@ Faker.seed(123)
 random.seed(123)
 
 # ------------------------------
-# Step 1: Generate Fake Patients
+# Generate Fake Patients
 # ------------------------------
 def generate_fake_patients(n=10):
     races = ['White', 'Black', 'Asian', 'Other']
@@ -58,13 +49,14 @@ def generate_fake_patients(n=10):
     df["birthdate"] = pd.to_datetime(df["birthdate"])
     return df
 
-num_patients = st.slider("Select number of patients to generate", 5, 50, 10)
+num_patients = st.slider("Number of patients to generate", 5, 50, 10)
 original_data = generate_fake_patients(num_patients)
+
 st.write("### Sample Fake Patients Data")
 st.dataframe(original_data.head())
 
 # ------------------------------
-# Step 2: Mapping Functions for OMOP Concepts
+# Mapping Functions for OMOP
 # ------------------------------
 def map_gender(gender):
     return {'Male': 8507, 'Female': 8532}.get(gender, 0)
@@ -76,7 +68,7 @@ def map_ethnicity(ethnicity):
     return {'Not Hispanic or Latino': 38070399, 'Hispanic or Latino': 38003563}.get(ethnicity, 0)
 
 # ------------------------------
-# Step 3: Convert to OMOP Person Table
+# Convert to OMOP Person Table
 # ------------------------------
 def convert_to_omop_person(df):
     return pd.DataFrame({
@@ -105,7 +97,7 @@ st.write("### OMOP Person Table")
 st.dataframe(omop_person.head())
 
 # ------------------------------
-# Step 4: Simulate Condition Occurrence Table
+# Simulate Condition Occurrence
 # ------------------------------
 icd_to_omop = {"E11.9": 201826, "I10": 320128, "J45.909": 317009, "F32.9": 440383}
 icd_codes = list(icd_to_omop.keys())
@@ -141,9 +133,6 @@ condition_occurrence = generate_full_condition_occurrence(omop_person)
 st.write("### Simulated Condition Occurrence Table")
 st.dataframe(condition_occurrence.head())
 
-# ------------------------------
-# Step 5: Discussion Prompts
-# ------------------------------
 st.write("""
 #### Discussion Prompts
 
