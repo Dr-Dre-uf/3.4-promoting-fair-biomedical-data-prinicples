@@ -132,11 +132,3 @@ def generate_full_condition_occurrence(person_df):
 condition_occurrence = generate_full_condition_occurrence(omop_person)
 st.write("### Simulated Condition Occurrence Table")
 st.dataframe(condition_occurrence.head())
-
-st.write("""
-#### Discussion Prompts
-
-* Why is it important to standardize diagnosis codes?
-* How might real-world ETL handle ICD-9, ICD-10, and SNOMED mappings?
-* What tools can help map source codes to OMOP concepts (e.g., Usagi)?
-""")
