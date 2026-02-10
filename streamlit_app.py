@@ -9,9 +9,9 @@ from datetime import datetime
 # ------------------------------
 st.set_page_config(page_title="OMOP ETL Simulator", layout="wide")
 
-st.title("🔍 Clinical Data Simulation: EHR to OMOP CDM")
+st.title("Clinical Data Simulation: EHR to OMOP CDM")
 
-with st.expander("📖 How to use this app & Educational Context"):
+with st.expander("How to use this app & Educational Context"):
     st.markdown("""
     ### Project Goal
     This app demonstrates the **ETL (Extract, Transform, Load)** process of moving raw EHR data into the **OMOP Common Data Model (CDM)**.
@@ -26,7 +26,7 @@ with st.expander("📖 How to use this app & Educational Context"):
 # ------------------------------
 # Sidebar - Interactivity & Instructions
 # ------------------------------
-st.sidebar.header("⚙️ Simulation Settings")
+st.sidebar.header("Simulation Settings")
 st.sidebar.info("Adjust the parameters below to re-generate the synthetic cohort.")
 
 num_patients = st.sidebar.slider(
@@ -72,7 +72,7 @@ def generate_fake_patients(n):
 
 original_data = generate_fake_patients(num_patients)
 
-st.header("🧪 Step 1: Raw Source Data")
+st.header("Step 1: Raw Source Data")
 st.markdown("This represents messy, non-standardized data exported from a hospital's local database.")
 st.dataframe(original_data, use_container_width=True)
 
@@ -106,17 +106,17 @@ def convert_to_omop_person(df):
 
 omop_person = convert_to_omop_person(original_data)
 
-st.header("📊 Step 2: Standardized OMOP Person Table")
+st.header("Step 2: Standardized OMOP Person Table")
 st.markdown("Notice how names and addresses are removed, and demographics are replaced with **Concept IDs**.")
 
 # Interactive Tooltip simulation for columns
-st.info("💡 **Pro-tip:** Hover over the table to see data, or check the 'Concept Map' below.")
+st.info("**Pro-tip:** Hover over the table to see data, or check the 'Concept Map' below.")
 st.dataframe(omop_person, use_container_width=True)
 
 # ------------------------------
 # Step 3: Condition Occurrence
 # ------------------------------
-st.header("🩺 Step 3: Condition Occurrence")
+st.header("Step 3: Condition Occurrence")
 st.markdown("We simulate diagnoses by mapping ICD-10 source codes to OMOP Standard Concepts.")
 
 icd_to_omop = {"E11.9": 201826, "I10": 320128, "J45.909": 317009, "F32.9": 440383}
@@ -145,7 +145,7 @@ st.dataframe(condition_occurrence, use_container_width=True)
 # Discussion Section (From Notebook)
 # ------------------------------
 st.divider()
-st.header("🧠 Knowledge Check")
+st.header("Knowledge Check")
 col1, col2 = st.columns(2)
 
 with col1:
